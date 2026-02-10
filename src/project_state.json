@@ -1,0 +1,112 @@
+{
+  "schemaVersion": "1.0.0",
+  "projectStateVersion": 5,
+  "summary": "Build a website matching the provided \"Gupta’s Stationery | Elite Pro ERP\" HTML exactly, including inventory and billing functionality, and add a password-only login gate (password: \"gupta123\") before entering the main app (no Internet Identity).",
+  "architectural_notes": [
+    "Front-end only single-page app (HTML/CSS/JS) with state persisted in browser localStorage (inventory, sales history, profile image).",
+    "Two main views/sections: Inventory and Billing Station, toggled via sidebar navigation.",
+    "Add a simple client-side password gate (\"gupta123\") before rendering the SPA; no Internet Identity integration."
+  ],
+  "known_issues": [],
+  "isFixRequest": false,
+  "existing_features": [
+    {
+      "id": "feature-recreate-the-provided-single-page-gupta-s-stationery-elite-pro-erp-application-in-the-react-typescript-frontend-with-the-same-layout-styling-animations-and-interactions-as-the-supplied-html-css-sidebar-main-view-cards-tables-hover-active-states-gradients-blur-effects-spacing-typography",
+      "title": "Recreate the provided single-page “Gupta’s Stationery | Elite Pro ERP” application in the React + TypeScript frontend with the same layout, styling, animations, and interactions as the supplied HTML/CSS (sidebar + main view, cards, tables, hover/active states, gradients, blur effects, spacing, typography).",
+      "reqIds": [
+        "REQ-1"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-the-sidebar-header-features-circular-profile-image-with-gradient-ring-click-to-upload-image-store-reload-the-selected-profile-image-from-browser-localstorage-using-the-same-key-behavior-as-the-provided-script-key-g-p-and-display-a-live-clock-date-string-updating-every-second-in-the-sidebar",
+      "title": "Implement the sidebar header features: circular profile image with gradient ring, click-to-upload image, store/reload the selected profile image from browser localStorage using the same key behavior as the provided script (key: \"g_p\"), and display a live clock/date string updating every second in the sidebar.",
+      "reqIds": [
+        "REQ-2"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-view-switching-exactly-as-in-the-provided-app-inventory-and-billing-station-navigation-items-in-the-sidebar-with-active-styling-and-a-main-header-area-that-changes-title-and-subtitle-appropriately-when-switching-views",
+      "title": "Implement view switching exactly as in the provided app: “Inventory” and “Billing Station” navigation items in the sidebar, with active styling and a main header area that changes title and subtitle appropriately when switching views.",
+      "reqIds": [
+        "REQ-3"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-inventory-management-features-matching-the-provided-javascript-behavior-add-stock-name-unit-price-qty-enter-key-focus-shifting-submit-behavior-inventory-table-rendering-with-sorting-and-search-filtering-by-product-name-delete-item-with-confirmation-and-total-asset-value-calculation-and-display",
+      "title": "Implement Inventory management features matching the provided JavaScript behavior: add stock (name, unit price, qty), Enter-key focus shifting/submit behavior, inventory table rendering with sorting and search filtering by product name, delete item with confirmation, and “Total Asset Value” calculation and display.",
+      "reqIds": [
+        "REQ-4"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-billing-station-features-matching-the-provided-javascript-behavior-product-search-with-suggestion-dropdown-from-inventory-pick-suggestion-to-populate-name-and-price-add-items-to-a-current-cart-render-cart-table-with-subtotals-and-remove-buttons-compute-and-display-bill-total-and-finalize-bill-to-create-a-sales-record-and-decrement-inventory-quantities",
+      "title": "Implement Billing Station features matching the provided JavaScript behavior: product search with suggestion dropdown from inventory, pick suggestion to populate name and price, add items to a current cart, render cart table with subtotals and remove buttons, compute and display bill total, and finalize bill to create a sales record and decrement inventory quantities.",
+      "reqIds": [
+        "REQ-5"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-past-transactions-history-rendering-and-metrics-exactly-as-in-the-provided-javascript-render-sales-sorted-newest-first-compute-and-display-today-s-sales-total-for-current-date-and-gross-earnings-for-all-time-and-allow-deleting-voiding-a-transaction-with-confirmation",
+      "title": "Implement Past Transactions History rendering and metrics exactly as in the provided JavaScript: render sales sorted newest-first, compute and display “Today’s Sales” total for current date and “Gross Earnings” for all time, and allow deleting/voiding a transaction with confirmation.",
+      "reqIds": [
+        "REQ-6"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-keep-the-backend-canister-minimal-and-do-not-introduce-new-product-features-beyond-what-the-provided-html-implements-the-app-s-state-persistence-should-match-the-original-behavior-browser-localstorage-keys-g-inv-g-sales-v10-g-p",
+      "title": "Keep the backend canister minimal and do not introduce new product features beyond what the provided HTML implements; the app’s state persistence should match the original behavior (browser localStorage keys: \"g_inv\", \"g_sales_v10\", \"g_p\").",
+      "reqIds": [
+        "REQ-7"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-password-only-login-gate-that-blocks-access-to-the-main-erp-application-until-the-user-enters-the-exact-password-gupta123-and-do-not-use-internet-identity-for-this-login",
+      "title": "Add a password-only login gate that blocks access to the main ERP application until the user enters the exact password \"gupta123\", and do not use Internet Identity for this login.",
+      "reqIds": [
+        "REQ-8"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-a-logout-action-that-returns-the-user-to-the-password-login-screen-and-clears-the-stored-authenticated-session-state",
+      "title": "Implement a logout action that returns the user to the password login screen and clears the stored authenticated session state.",
+      "reqIds": [
+        "REQ-9"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-ensure-the-existing-inventory-and-billing-station-features-and-their-browser-localstorage-persistence-keys-remain-unchanged-g-inv-g-sales-v10-g-p-and-continue-working-after-adding-the-password-gate",
+      "title": "Ensure the existing Inventory and Billing Station features and their browser localStorage persistence keys remain unchanged (\"g_inv\", \"g_sales_v10\", \"g_p\") and continue working after adding the password gate.",
+      "reqIds": [
+        "REQ-10"
+      ],
+      "version": 1
+    }
+  ],
+  "new_feature_requests": [
+    {
+      "id": "AR-1",
+      "summary": "Create the Gupta’s Stationery | Elite Pro ERP website by copying the provided design and all features 100% (inventory management + billing station) with no changes.",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-2",
+      "summary": "Add a password-only login screen/gate (password: \"gupta123\") required before accessing the main application; do not use Internet Identity.",
+      "reqIds": [],
+      "status": "pending"
+    }
+  ],
+  "gameProjectType": "none",
+  "projectName": "Gupta’s Stationery | Elite Pro ERP",
+  "clarification_mode": "instant",
+  "clarification_rounds": 0
+}

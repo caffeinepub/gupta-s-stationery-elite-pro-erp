@@ -1,0 +1,65 @@
+{
+  "kind": "feature_evidence_report",
+  "features": [
+    {
+      "featureId": "feature-add-a-password-only-login-gate-that-blocks-access-to-the-main-erp-application-until-the-user-enters-the-exact-password-gupta123-and-do-not-use-internet-identity-for-this-login",
+      "featureTitle": "Add a password-only login gate that blocks access to the main ERP application until the user enters the exact password \"gupta123\", and do not use Internet Identity for this login.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/auth/PasswordLogin.tsx",
+        "frontend/src/hooks/usePasswordGate.ts",
+        "frontend/src/index.css"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-8"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-implement-a-logout-action-that-returns-the-user-to-the-password-login-screen-and-clears-the-stored-authenticated-session-state",
+      "featureTitle": "Implement a logout action that returns the user to the password login screen and clears the stored authenticated session state.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/erp/MainHeader.tsx",
+        "frontend/src/hooks/usePasswordGate.ts"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-9"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-ensure-the-existing-inventory-and-billing-station-features-and-their-browser-localstorage-persistence-keys-remain-unchanged-g-inv-g-sales-v10-g-p-and-continue-working-after-adding-the-password-gate",
+      "featureTitle": "Ensure the existing Inventory and Billing Station features and their browser localStorage persistence keys remain unchanged (\"g_inv\", \"g_sales_v10\", \"g_p\") and continue working after adding the password gate.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/lib/erpPersistenceContract.ts"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-10"
+      ],
+      "confidence": "high"
+    }
+  ]
+}

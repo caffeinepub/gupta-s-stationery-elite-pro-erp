@@ -1,2 +1,3 @@
-# gupta-s-stationery-elite-pro-erp
-Exported from Caffeine project: Gupta’s Stationery | Elite Pro ERP
+## 
+
+To run app build and run docker image: `docker build -t app . docker run -it --network host app`

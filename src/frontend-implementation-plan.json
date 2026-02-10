@@ -1,0 +1,87 @@
+{
+  "kind": "implementation_plan",
+  "version": "1.0",
+  "title": "Password-only login gate and logout for ERP (session-based, no Internet Identity UX)",
+  "requirements": [
+    {
+      "id": "REQ-8",
+      "summary": "Add a password-only login gate that blocks the ERP UI until the exact password \"gupta123\" is entered, without showing any Internet Identity login UX, and persist auth for the current tab session.",
+      "acceptanceCriteria": [
+        "When the app loads, users see a login screen instead of the ERP UI until they authenticate with the password.",
+        "Entering the exact password \"gupta123\" allows the user to proceed into the ERP UI.",
+        "Entering any other password keeps the user on the login screen and shows an English error message.",
+        "No Internet Identity login flow is presented to the user anywhere in the UI.",
+        "After successful password entry, the authenticated state persists at least for the duration of the current browser tab session (e.g., survives a page refresh in the same tab)."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/hooks/usePasswordGate.ts",
+          "operation": "create",
+          "description": "Create a small sessionStorage-backed auth gate hook that (1) checks if the session is authenticated on load, (2) validates the entered password against the required literal \"gupta123\", (3) exposes login/logout actions, and (4) stores auth state in sessionStorage (tab-scoped) without using Internet Identity."
+        },
+        {
+          "path": "frontend/src/components/auth/PasswordLogin.tsx",
+          "operation": "create",
+          "description": "Create a dedicated password login screen component (password input + submit button) that uses the usePasswordGate hook, renders an English error message on wrong password, and does not render any Internet Identity login controls."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Wire the password gate into the app: render the PasswordLogin screen when not authenticated, and render the existing ERP UI (Sidebar/MainHeader/InventoryView/BillingView) only after successful password entry; do not import or call Internet Identity login functions anywhere in this flow."
+        },
+        {
+          "path": "frontend/src/index.css",
+          "operation": "modify",
+          "description": "Add minimal styling hooks/classes (reusing the existing theme variables) to ensure the new login screen is visually centered/readable without changing ERP feature styling."
+        }
+      ]
+    },
+    {
+      "id": "REQ-9",
+      "summary": "Add a visible logout action inside the ERP UI that returns to the password login screen and clears the session auth state.",
+      "acceptanceCriteria": [
+        "A visible logout control is available when the user is inside the main ERP UI.",
+        "Clicking logout returns the app to the password login screen.",
+        "After logout, refreshing the page does not automatically re-enter the ERP UI without re-entering the password."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/erp/MainHeader.tsx",
+          "operation": "modify",
+          "description": "Add a visible Logout control to the header when authenticated (e.g., a button in the header area) by extending props to accept an onLogout callback and rendering the control alongside existing stats."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Pass an onLogout handler from App into MainHeader that calls the password-gate logout action, clears the tab session auth state, and resets the in-memory view state as needed so the user lands back on the password login screen."
+        },
+        {
+          "path": "frontend/src/hooks/usePasswordGate.ts",
+          "operation": "modify",
+          "description": "Ensure logout reliably clears the sessionStorage flag and returns isAuthenticated to false so a refresh after logout remains on the login screen."
+        }
+      ]
+    },
+    {
+      "id": "REQ-10",
+      "summary": "Preserve existing Inventory and Billing Station behavior and localStorage persistence keys (\"g_inv\", \"g_sales_v10\", \"g_p\") unchanged after introducing the password gate.",
+      "acceptanceCriteria": [
+        "Inventory CRUD, billing/cart, finalize bill, sales history, and computed metrics behave exactly as before after introducing the login gate.",
+        "Existing data previously stored under localStorage keys \"g_inv\", \"g_sales_v10\", and \"g_p\" still loads correctly after updating.",
+        "No changes are made to the meaning or format of values stored under \"g_inv\", \"g_sales_v10\", and \"g_p\"."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/lib/erpPersistenceContract.ts",
+          "operation": "create",
+          "description": "Add a small, read-only contract/guard module that imports STORAGE_KEYS and verifies at runtime (in development) that INVENTORY === \"g_inv\", SALES === \"g_sales_v10\", and PROFILE_IMAGE === \"g_p\" to prevent accidental key regressions without changing stored data formats."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Call the persistence contract verification early in app startup (non-blocking; e.g., dev-only console warning) and ensure the password-gate session storage uses a new, separate sessionStorage key so existing localStorage keys and behaviors remain untouched."
+        }
+      ]
+    }
+  ]
+}

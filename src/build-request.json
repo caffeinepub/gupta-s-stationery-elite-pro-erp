@@ -1,0 +1,78 @@
+{
+  "kind": "build_request",
+  "title": "Add password-only login gate (no Internet Identity) before accessing ERP app",
+  "priority": "normal",
+  "requirements": [
+    {
+      "id": "REQ-8",
+      "text": "Add a password-only login gate that blocks access to the main ERP application until the user enters the exact password \"gupta123\", and do not use Internet Identity for this login.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-3"
+        ],
+        "quotes": [
+          "Before entering to the main application first user must login using a password \"gupta123\" and dont use internet identity"
+        ]
+      },
+      "acceptanceCriteria": [
+        "When the app loads, users see a login screen instead of the ERP UI until they authenticate with the password.",
+        "Entering the exact password \"gupta123\" allows the user to proceed into the ERP UI.",
+        "Entering any other password keeps the user on the login screen and shows an English error message.",
+        "No Internet Identity login flow is presented to the user anywhere in the UI.",
+        "After successful password entry, the authenticated state persists at least for the duration of the current browser tab session (e.g., survives a page refresh in the same tab)."
+      ]
+    },
+    {
+      "id": "REQ-9",
+      "text": "Implement a logout action that returns the user to the password login screen and clears the stored authenticated session state.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-3"
+        ],
+        "quotes": [
+          "Before entering to the main application first user must login using a password \"gupta123\" and dont use internet identity"
+        ]
+      },
+      "acceptanceCriteria": [
+        "A visible logout control is available when the user is inside the main ERP UI.",
+        "Clicking logout returns the app to the password login screen.",
+        "After logout, refreshing the page does not automatically re-enter the ERP UI without re-entering the password."
+      ]
+    },
+    {
+      "id": "REQ-10",
+      "text": "Ensure the existing Inventory and Billing Station features and their browser localStorage persistence keys remain unchanged (\"g_inv\", \"g_sales_v10\", \"g_p\") and continue working after adding the password gate.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-3"
+        ],
+        "quotes": [
+          "Before entering to the main application first user must login using a password \"gupta123\" and dont use internet identity"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Inventory CRUD, billing/cart, finalize bill, sales history, and computed metrics behave exactly as before after introducing the login gate.",
+        "Existing data previously stored under localStorage keys \"g_inv\", \"g_sales_v10\", and \"g_p\" still loads correctly after updating.",
+        "No changes are made to the meaning or format of values stored under \"g_inv\", \"g_sales_v10\", and \"g_p\"."
+      ]
+    }
+  ],
+  "constraints": [
+    "Do not use Internet Identity for authentication (no II login/logout UX, and no II requirement to access the app).",
+    "Do not edit files under frontend/src/components/ui (read-only).",
+    "Do not edit immutable frontend paths: frontend/src/hooks/useInternetIdentity.ts, frontend/src/hooks/useInternetIdentity.tsx, frontend/src/hooks/useActor.ts, frontend/src/main.tsx.",
+    "Keep the backend canister minimal; do not add backend-based authentication for this request."
+  ],
+  "nonGoals": [
+    "Do not implement real user accounts, role-based access control, password reset, or password hashing/security beyond this simple gate.",
+    "Do not add third-party authentication providers.",
+    "Do not add new ERP product features beyond the login gate and logout control."
+  ],
+  "imageRequirements": {
+    "required": [],
+    "edits": []
+  }
+}
